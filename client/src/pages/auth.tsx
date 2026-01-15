@@ -12,10 +12,11 @@ export default function AuthPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Form submitted, isSignUp:", isSignUp);
     if (isSignUp) {
       setLocation("/verify");
     } else {
-      // Direct navigation to dashboard on login submission
+      console.log("Navigating to dashboard...");
       setLocation("/dashboard");
     }
   };
