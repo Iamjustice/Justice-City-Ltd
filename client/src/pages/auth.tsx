@@ -21,12 +21,12 @@ export default function AuthPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted, isSignUp:", isSignUp);
+    console.log("Submit clicked, isSignUp:", isSignUp);
     if (isSignUp) {
-      setLocation("/verify");
+      window.location.href = "/verify";
     } else {
-      console.log("Navigating to dashboard...");
-      setLocation("/dashboard");
+      console.log("Attempting to go to dashboard...");
+      window.location.href = "/dashboard";
     }
   };
 
@@ -48,6 +48,28 @@ export default function AuthPage() {
               : "Enter your credentials to access your account"}
           </CardDescription>
         </CardHeader>
+        <div className="p-1 px-6 flex justify-center">
+          <div className="flex bg-slate-100 p-1 rounded-lg w-full max-w-xs">
+            <button
+              onClick={() => setIsSignUp(true)}
+              className={cn(
+                "flex-1 py-1.5 text-sm font-semibold rounded-md transition-all",
+                isSignUp ? "bg-white text-blue-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
+              )}
+            >
+              Sign Up
+            </button>
+            <button
+              onClick={() => setIsSignUp(false)}
+              className={cn(
+                "flex-1 py-1.5 text-sm font-semibold rounded-md transition-all",
+                !isSignUp ? "bg-white text-blue-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
+              )}
+            >
+              Log In
+            </button>
+          </div>
+        </div>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             {isSignUp && (
