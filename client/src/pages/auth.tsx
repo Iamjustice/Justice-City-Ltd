@@ -1,14 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShieldCheck } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function AuthPage() {
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const [isSignUp, setIsSignUp] = useState(true);
+
+  useEffect(() => {
+    // Check if we should start in login mode
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("mode") === "login") {
+      setIsSignUp(false);
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,7 +74,10 @@ export default function AuthPage() {
               <button 
                 type="button"
                 onClick={() => setIsSignUp(!isSignUp)}
-                className="text-blue-600 font-semibold hover:underline"
+                className={cn(
+                  "font-semibold hover:underline",
+                  isSignUp ? "text-blue-600" : "text-blue-600"
+                )}
               >
                 {isSignUp ? "Log In" : "Sign Up"}
               </button>
