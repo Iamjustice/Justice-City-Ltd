@@ -10,12 +10,16 @@ import Home from "@/pages/home";
 import PropertyDetails from "@/pages/property-details";
 import Dashboard from "@/pages/dashboard";
 import Services from "@/pages/services";
+import AuthPage from "@/pages/auth";
+import VerificationPage from "@/pages/verify";
 
 function Router() {
   return (
     <Layout>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/auth" component={AuthPage} />
+        <Route path="/verify" component={VerificationPage} />
         <Route path="/property/:id" component={PropertyDetails} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/services" component={Services} />
