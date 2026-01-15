@@ -117,7 +117,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             ) : (
               <div className="flex items-center gap-2">
                 <Button variant="ghost" asChild>
-                  <Link href="/auth">Log in</Link>
+                  <Link href="/auth?mode=login">Log in</Link>
                 </Button>
                 <Button asChild className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-600/20">
                   <Link href="/auth">Sign up</Link>
