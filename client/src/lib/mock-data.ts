@@ -126,4 +126,12 @@ export const PROFESSIONAL_SERVICES: ProService[] = [
     price: "₦35,000",
     turnaround: "24 Hours",
   },
+  {
+    id: "serv_4",
+    name: "Snagging Services",
+    description: "Detailed inspection of new buildings to identify defects before you move in.",
+    icon: "Building2",
+    price: "₦45,000",
+    turnaround: "48 Hours",
+  },
 ];
