@@ -8,6 +8,7 @@ import generatedImage from '@assets/generated_images/modern_trustworthy_city_sky
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeType, setActiveType] = useState("Buy");
 
   const filteredProperties = MOCK_PROPERTIES.filter(p => 
     p.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -17,7 +18,7 @@ export default function Home() {
   return (
     <div className="pb-20">
       {/* Hero Section */}
-      <section className="relative h-[500px] flex items-center justify-center overflow-hidden bg-slate-900">
+      <section className="relative min-h-[500px] flex items-center justify-center overflow-hidden bg-slate-900 py-16">
         <div className="absolute inset-0">
           <img 
             src={generatedImage}
@@ -63,13 +64,14 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+            <div className="flex flex-col md:flex-row items-stretch md:items-center justify-center gap-4">
               <div className="flex items-center justify-center bg-white/10 backdrop-blur-md p-1 rounded-xl border border-white/20 w-full md:w-auto">
                 {["Buy", "Rent", "Sell"].map((type) => (
                   <button
                     key={type}
-                    className="flex-1 md:flex-none px-6 md:px-8 py-2.5 rounded-lg text-sm font-semibold transition-all hover:bg-white/10 text-white data-[active=true]:bg-blue-600 data-[active=true]:text-white"
-                    data-active={type === "Buy"}
+                    onClick={() => setActiveType(type)}
+                    className="flex-1 md:flex-none px-6 md:px-8 py-2.5 rounded-lg text-sm font-semibold transition-all hover:bg-white/10 text-white data-[active=true]:bg-blue-600 data-[active=true]:text-white data-[active=true]:shadow-lg"
+                    data-active={activeType === type}
                   >
                     {type}
                   </button>
