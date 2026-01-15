@@ -6,10 +6,12 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/lib/auth";
 
 export default function AuthPage() {
   const [location, setLocation] = useLocation();
   const [isSignUp, setIsSignUp] = useState(true);
+  const { login } = useAuth();
 
   useEffect(() => {
     // Check if we should start in login mode
@@ -22,12 +24,20 @@ export default function AuthPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Submit clicked, isSignUp:", isSignUp);
+    
+    // Call the login function from AuthContext to update global state
+    login(isSignUp ? "buyer" : "buyer");
+
     if (isSignUp) {
-      window.location.href = "/verify";
+      setTimeout(() => {
+        window.location.href = "/verify";
+      }, 500);
     } else {
       console.log("Attempting to go to marketplace...");
       // Marketplace is the root page (Home)
-      window.location.href = "/";
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 500);
     }
   };
 
