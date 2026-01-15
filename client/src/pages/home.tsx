@@ -63,19 +63,19 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="flex flex-col items-center gap-4">
-              <div className="flex items-center justify-center bg-white/10 backdrop-blur-md p-1 rounded-xl border border-white/20">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+              <div className="flex items-center justify-center bg-white/10 backdrop-blur-md p-1 rounded-xl border border-white/20 w-full md:w-auto">
                 {["Buy", "Rent", "Sell"].map((type) => (
                   <button
                     key={type}
-                    className="px-8 py-2 rounded-lg text-sm font-semibold transition-all hover:bg-white/10 text-white data-[active=true]:bg-blue-600 data-[active=true]:text-white"
+                    className="flex-1 md:flex-none px-6 md:px-8 py-2.5 rounded-lg text-sm font-semibold transition-all hover:bg-white/10 text-white data-[active=true]:bg-blue-600 data-[active=true]:text-white"
                     data-active={type === "Buy"}
                   >
                     {type}
                   </button>
                 ))}
               </div>
-              <Button size="lg" className="h-14 w-full md:w-[420px] bg-blue-600 hover:bg-blue-700 font-bold text-xl shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]">
+              <Button size="lg" className="h-[52px] w-full md:w-auto md:px-12 bg-blue-600 hover:bg-blue-700 font-bold text-lg shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] rounded-xl">
                 Search
               </Button>
             </div>
