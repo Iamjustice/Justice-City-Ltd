@@ -8,7 +8,8 @@ import {
   X, 
   LayoutDashboard, 
   Home, 
-  LogOut 
+  LogOut,
+  User 
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -116,11 +117,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <Button variant="ghost" asChild>
-                  <Link href="/auth?mode=login">Log in</Link>
-                </Button>
-                <Button asChild className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-600/20">
-                  <Link href="/auth">Sign up</Link>
+                <Button variant="ghost" size="icon" asChild className="rounded-full hover:bg-slate-100">
+                  <Link href="/auth?mode=login">
+                    <User className="w-5 h-5 text-slate-600" />
+                  </Link>
                 </Button>
               </div>
             )}
