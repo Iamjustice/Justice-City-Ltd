@@ -128,12 +128,89 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="md:hidden p-2 text-slate-600"
+            className="md:hidden p-2 text-slate-600 z-50"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X /> : <Menu />}
           </button>
         </div>
+
+        {/* Mobile Menu Overlay */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden fixed inset-0 top-16 bg-white z-40 p-4 space-y-6 animate-in slide-in-from-top duration-300">
+            <nav className="flex flex-col gap-4">
+              <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className={cn(
+                "text-lg font-medium p-2 rounded-lg",
+                location === "/" ? "bg-blue-50 text-blue-600" : "text-slate-600"
+              )}>
+                Marketplace
+              </Link>
+              <Link href="/services" onClick={() => setIsMobileMenuOpen(false)} className={cn(
+                "text-lg font-medium p-2 rounded-lg",
+                location === "/services" ? "bg-blue-50 text-blue-600" : "text-slate-600"
+              )}>
+                Services
+              </Link>
+              {user && (
+                <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className={cn(
+                  "text-lg font-medium p-2 rounded-lg",
+                  location === "/dashboard" ? "bg-blue-50 text-blue-600" : "text-slate-600"
+                )}>
+                  Dashboard
+                </Link>
+              )}
+            </nav>
+            <div className="pt-4 border-t border-slate-100 flex flex-col gap-3">
+              {user ? (
+                <>
+                  <div className="flex items-center gap-3 p-2">
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src={user.avatar} alt={user.name} />
+                      <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-semibold text-slate-900">{user.name}</p>
+                      <p className="text-xs text-slate-500">{user.isVerified ? "Verified User" : "Unverified User"}</p>
+                    </div>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    className="w-full text-red-600 border-red-100 hover:bg-red-50"
+                    onClick={() => {
+                      logout();
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button 
+                    variant="outline" 
+                    className="w-full h-12"
+                    onClick={() => {
+                      login("buyer");
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
+                    Log in
+                  </Button>
+                  <Button 
+                    className="w-full h-12 bg-blue-600"
+                    onClick={() => {
+                      login("buyer");
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
+                    Sign up
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Main Content */}
