@@ -91,3 +91,39 @@ export const MOCK_PROPERTIES: Property[] = [
     description: "Exquisite 2-bedroom flat with italian finishing. Diplomatic zone security.",
   },
 ];
+
+export interface ProService {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  price: string;
+  turnaround: string;
+}
+
+export const PROFESSIONAL_SERVICES: ProService[] = [
+  {
+    id: "serv_1",
+    name: "Property Valuation",
+    description: "Get a certified valuation report for your property from licensed estate surveyors.",
+    icon: "ClipboardCheck",
+    price: "₦50,000",
+    turnaround: "48 Hours",
+  },
+  {
+    id: "serv_2",
+    name: "Land Surveying",
+    description: "Professional boundary surveys and topographic mapping by verified surveyors.",
+    icon: "Compass",
+    price: "₦120,000",
+    turnaround: "5-7 Days",
+  },
+  {
+    id: "serv_3",
+    name: "Land Info Verification",
+    description: "Verify land titles and historical records at the state land registry.",
+    icon: "FileSearch",
+    price: "₦35,000",
+    turnaround: "24 Hours",
+  },
+];
