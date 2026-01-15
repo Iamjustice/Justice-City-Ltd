@@ -29,15 +29,11 @@ export default function AuthPage() {
     login(isSignUp ? "buyer" : "buyer");
 
     if (isSignUp) {
-      setTimeout(() => {
-        window.location.href = "/verify";
-      }, 500);
+      setLocation("/verify");
     } else {
       console.log("Attempting to go to marketplace...");
       // Marketplace is the root page (Home)
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 500);
+      setLocation("/");
     }
   };
 

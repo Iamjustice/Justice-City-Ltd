@@ -23,7 +23,11 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    // Initialize from localStorage for persistence in mockup mode
+    const saved = localStorage.getItem("justice_city_user");
+    return saved ? JSON.parse(saved) : null;
+  });
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -38,18 +42,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
     };
     
-    // Use setTimeout to allow the toast and state update to process
-    setTimeout(() => {
-      setUser(userData);
-      setIsLoading(false);
-      toast({
-        title: "Welcome back",
-        description: "You are currently logged in as an Unverified User.",
-      });
-    }, 100);
+    // Store in localStorage for persistence in mockup mode
+    localStorage.setItem("justice_city_user", JSON.stringify(userData));
+    setUser(userData);
+    setIsLoading(false);
+    toast({
+      title: "Welcome back",
+      description: "You are currently logged in as an Unverified User.",
+    });
   };
 
   const logout = () => {
+    localStorage.removeItem("justice_city_user");
     setUser(null);
     toast({
       title: "Logged out",
