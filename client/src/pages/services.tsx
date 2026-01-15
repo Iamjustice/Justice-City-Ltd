@@ -2,9 +2,10 @@ import { useState } from "react";
 import { PROFESSIONAL_SERVICES, ProService } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { ClipboardCheck, Compass, FileSearch, ShieldCheck, Clock, ArrowRight } from "lucide-react";
+import { ClipboardCheck, Compass, FileSearch, ShieldCheck, Clock, ArrowRight, Building2 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { VerificationModal } from "@/components/verification-modal";
+import { ChatInterface } from "@/components/chat-interface";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 
@@ -12,6 +13,7 @@ const ICON_MAP: Record<string, any> = {
   ClipboardCheck,
   Compass,
   FileSearch,
+  Building2,
 };
 
 export default function Services() {
@@ -19,8 +21,7 @@ export default function Services() {
   const { toast } = useToast();
   const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<ProService | null>(null);
-  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
-  const [isBookingProcessing, setIsBookingProcessing] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const handleBook = (service: ProService) => {
     if (!user) {
@@ -32,20 +33,7 @@ export default function Services() {
       return;
     }
     setSelectedService(service);
-    setIsBookingModalOpen(true);
-  };
-
-  const confirmBooking = () => {
-    setIsBookingProcessing(true);
-    setTimeout(() => {
-      setIsBookingProcessing(false);
-      setIsBookingModalOpen(false);
-      toast({
-        title: "Service Booked!",
-        description: `Your request for ${selectedService?.name} has been submitted.`,
-        className: "bg-green-600 text-white border-none",
-      });
-    }, 1500);
+    setIsChatOpen(true);
   };
 
   return (
@@ -56,34 +44,18 @@ export default function Services() {
         triggerAction="book professional services"
       />
 
-      <Dialog open={isBookingModalOpen} onOpenChange={setIsBookingModalOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Confirm Service Request</DialogTitle>
-            <DialogDescription>
-              You are booking {selectedService?.name}. A verified professional will contact you within 2 hours.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="py-4 space-y-3">
-            <div className="flex justify-between text-sm">
-              <span className="text-slate-500">Service Fee:</span>
-              <span className="font-bold text-slate-900">{selectedService?.price}</span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-slate-500">Turnaround Time:</span>
-              <span className="font-bold text-slate-900">{selectedService?.turnaround}</span>
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsBookingModalOpen(false)}>Cancel</Button>
-            <Button 
-              className="bg-blue-600 hover:bg-blue-700" 
-              onClick={confirmBooking}
-              disabled={isBookingProcessing}
-            >
-              {isBookingProcessing ? "Processing..." : "Confirm Booking"}
-            </Button>
-          </DialogFooter>
+      <Dialog open={isChatOpen} onOpenChange={setIsChatOpen}>
+        <DialogContent className="sm:max-w-md p-0 border-none bg-transparent shadow-none">
+          {selectedService && (
+            <ChatInterface 
+              recipient={{
+                name: "Justice City Support",
+                image: "https://api.dicebear.com/7.x/bottts/svg?seed=Support",
+                verified: true
+              }}
+              propertyTitle={selectedService.name}
+            />
+          )}
         </DialogContent>
       </Dialog>
 
