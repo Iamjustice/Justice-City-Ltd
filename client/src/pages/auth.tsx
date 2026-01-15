@@ -12,8 +12,11 @@ export default function AuthPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In mockup mode, we just simulate the navigation
-    setLocation("/verify");
+    if (isSignUp) {
+      setLocation("/verify");
+    } else {
+      setLocation("/dashboard");
+    }
   };
 
   return (
