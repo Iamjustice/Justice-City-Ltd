@@ -54,6 +54,17 @@ export default function Services() {
                 verified: true
               }}
               propertyTitle={selectedService.name}
+              initialMessage={
+                selectedService.name === "Land Surveying" 
+                  ? "Hello! I saw you are interested in our professional services. Do you mind giving detail description of the type of survey service you want?"
+                  : selectedService.name === "Property Valuation"
+                  ? "Hello! I saw you are interested in our professional services. Could you provide the address and type of property you'd like us to value?"
+                  : selectedService.name === "Land Info Verification"
+                  ? "Hello! I saw you are interested in our professional services. Please provide the details of the land or title number you'd like us to verify."
+                  : selectedService.name === "Snagging Services"
+                  ? "Hello! I saw you are interested in our professional services. When is your move-in date and what's the location of the new building?"
+                  : `Hello! I saw you were interested in our ${selectedService.name}. How can we help you today?`
+              }
             />
           )}
         </DialogContent>

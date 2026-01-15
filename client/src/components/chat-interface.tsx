@@ -13,9 +13,10 @@ interface ChatInterfaceProps {
     verified: boolean;
   };
   propertyTitle: string;
+  initialMessage?: string;
 }
 
-export function ChatInterface({ recipient, propertyTitle }: ChatInterfaceProps) {
+export function ChatInterface({ recipient, propertyTitle, initialMessage }: ChatInterfaceProps) {
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -26,7 +27,7 @@ export function ChatInterface({ recipient, propertyTitle }: ChatInterfaceProps) 
     {
       id: 2,
       sender: "them",
-      content: "Hello! I saw you were interested in the Victoria Island apartment. Do you have any questions?",
+      content: initialMessage || `Hello! I saw you were interested in the ${propertyTitle}. Do you have any questions?`,
       time: "10:05 AM",
     },
   ]);
