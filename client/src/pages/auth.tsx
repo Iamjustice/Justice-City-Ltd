@@ -15,8 +15,7 @@ export default function AuthPage() {
     if (isSignUp) {
       setLocation("/verify");
     } else {
-      // Set a mock user session in local storage or state if needed for the dashboard
-      // For now, we just navigate to the dashboard as requested
+      // Direct navigation to dashboard on login submission
       setLocation("/dashboard");
     }
   };
