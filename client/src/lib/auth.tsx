@@ -29,22 +29,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = (role: UserRole = "buyer") => {
     setIsLoading(true);
-    // Simulate API delay
+    const userData = {
+      id: "usr_123",
+      name: "Alex Doe",
+      email: "alex@example.com",
+      role,
+      isVerified: false,
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
+    };
+    
+    // Use setTimeout to allow the toast and state update to process
     setTimeout(() => {
-      setUser({
-        id: "usr_123",
-        name: "Alex Doe",
-        email: "alex@example.com",
-        role,
-        isVerified: false, // Default to unverified
-        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
-      });
+      setUser(userData);
       setIsLoading(false);
       toast({
         title: "Welcome back",
         description: "You are currently logged in as an Unverified User.",
       });
-    }, 800);
+    }, 100);
   };
 
   const logout = () => {
