@@ -25,8 +25,9 @@ export default function AuthPage() {
     if (isSignUp) {
       window.location.href = "/verify";
     } else {
-      console.log("Attempting to go to dashboard...");
-      window.location.href = "/dashboard";
+      console.log("Attempting to go to marketplace...");
+      // Marketplace is the root page (Home)
+      window.location.href = "/";
     }
   };
 
