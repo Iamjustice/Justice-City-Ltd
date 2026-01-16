@@ -190,21 +190,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <Button 
                     variant="outline" 
                     className="w-full h-12"
-                    onClick={() => {
-                      login("buyer");
-                      setIsMobileMenuOpen(false);
-                    }}
+                    asChild
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Log in
+                    <Link href="/auth?mode=login">Log in</Link>
                   </Button>
                   <Button 
                     className="w-full h-12 bg-blue-600"
-                    onClick={() => {
-                      login("buyer");
-                      setIsMobileMenuOpen(false);
-                    }}
+                    asChild
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Sign up
+                    <Link href="/auth">Sign up</Link>
                   </Button>
                 </>
               )}
