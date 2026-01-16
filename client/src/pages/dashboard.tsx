@@ -125,14 +125,14 @@ export default function Dashboard() {
       />
 
       <Dialog open={isCreateListingOpen} onOpenChange={setIsCreateListingOpen}>
-        <DialogContent className="sm:max-w-[600px]">
-          <DialogHeader>
+        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+          <DialogHeader className="pb-4">
             <DialogTitle>Create New Listing</DialogTitle>
             <DialogDescription>
               Add a new property to the marketplace. Your listing will be reviewed before going live.
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
+          <div className="grid gap-6 py-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="title">Property Title</Label>
