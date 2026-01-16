@@ -35,11 +35,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     const userData = {
       id: "usr_123",
-      name: "Alex Doe",
-      email: "alex@example.com",
+      name: role === "admin" ? "Justice Admin" : role === "agent" ? "Agent Alex" : "Alex Doe",
+      email: `${role}@example.com`,
       role,
-      isVerified: false,
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
+      isVerified: role === "admin", // Admins are verified by default in mockup
+      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${role}`,
     };
     
     // Store in localStorage for persistence in mockup mode
