@@ -10,7 +10,8 @@ import {
   MessageSquare,
   Users,
   Search as SearchIcon,
-  Filter
+  Filter,
+  ShieldCheck
 } from "lucide-react";
 import {
   Table,
