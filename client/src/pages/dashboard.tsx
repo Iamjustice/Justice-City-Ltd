@@ -158,13 +158,30 @@ export default function Dashboard() {
             <div className="space-y-2">
               <Label htmlFor="description">Description</Label>
               <textarea 
+                id="description"
                 className="w-full h-24 p-3 rounded-lg border border-slate-200 bg-slate-50 text-sm resize-none"
                 placeholder="Describe the property's features..."
               />
             </div>
-            <div className="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center hover:border-blue-400 transition-colors cursor-pointer">
-              <Plus className="w-8 h-8 text-slate-400 mx-auto mb-2" />
-              <p className="text-sm text-slate-500">Upload Property Images</p>
+            <div className="space-y-4">
+              <Label className="text-base font-bold">Required Documentation</Label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center hover:border-blue-400 transition-colors cursor-pointer group bg-slate-50/50">
+                  <FileText className="w-8 h-8 text-slate-400 mx-auto mb-2 group-hover:text-blue-500 transition-colors" />
+                  <p className="text-sm font-semibold text-slate-900">Upload Property Documents</p>
+                  <p className="text-xs text-slate-500 mt-1">C of O, Survey Plan, or Deed</p>
+                </div>
+                <div className="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center hover:border-blue-400 transition-colors cursor-pointer group bg-slate-50/50">
+                  <ShieldCheck className="w-8 h-8 text-slate-400 mx-auto mb-2 group-hover:text-blue-500 transition-colors" />
+                  <p className="text-sm font-semibold text-slate-900">Ownership Authorization</p>
+                  <p className="text-xs text-slate-500 mt-1">Letter of Authorization from Owner</p>
+                </div>
+              </div>
+            </div>
+            <div className="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center hover:border-blue-400 transition-colors cursor-pointer group">
+              <Plus className="w-8 h-8 text-slate-400 mx-auto mb-2 group-hover:text-blue-500 transition-colors" />
+              <p className="text-sm font-semibold text-slate-900">Upload Property Images</p>
+              <p className="text-xs text-slate-500 mt-1">Add up to 10 high-quality photos</p>
             </div>
           </div>
           <DialogFooter>
