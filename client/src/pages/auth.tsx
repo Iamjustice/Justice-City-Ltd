@@ -21,19 +21,24 @@ export default function AuthPage() {
     }
   }, []);
 
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "buyer" as "buyer" | "seller" | "agent" | "admin"
+  });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submit clicked, isSignUp:", isSignUp);
+    console.log("Submit clicked, role:", formData.role);
     
     // Call the login function from AuthContext to update global state
-    login(isSignUp ? "buyer" : "buyer");
+    login(formData.role);
 
     if (isSignUp) {
       setLocation("/verify");
     } else {
-      console.log("Attempting to go to marketplace...");
-      // Marketplace is the root page (Home)
-      setLocation("/");
+      setLocation("/dashboard");
     }
   };
 
@@ -80,18 +85,53 @@ export default function AuthPage() {
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             {isSignUp && (
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input id="name" placeholder="John Doe" required />
-              </div>
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="name">Full Name</Label>
+                  <Input 
+                    id="name" 
+                    placeholder="John Doe" 
+                    required 
+                    value={formData.name}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="role">I am a...</Label>
+                  <select 
+                    id="role"
+                    className="w-full h-10 px-3 rounded-lg border border-slate-200 bg-white text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                    value={formData.role}
+                    onChange={(e) => setFormData({...formData, role: e.target.value as any})}
+                  >
+                    <option value="buyer">Buyer / Searcher</option>
+                    <option value="seller">Property Owner / Seller</option>
+                    <option value="agent">Real Estate Agent</option>
+                    <option value="admin">System Administrator</option>
+                  </select>
+                </div>
+              </>
             )}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="john@example.com" required />
+              <Input 
+                id="email" 
+                type="email" 
+                placeholder="john@example.com" 
+                required 
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" required />
+              <Input 
+                id="password" 
+                type="password" 
+                required 
+                value={formData.password}
+                onChange={(e) => setFormData({...formData, password: e.target.value})}
+              />
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
