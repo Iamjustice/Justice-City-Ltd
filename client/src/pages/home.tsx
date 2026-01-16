@@ -38,9 +38,9 @@ export default function Home() {
   });
 
   return (
-    <div className="pb-20">
+    <div className="pb-20 min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-[500px] flex items-center justify-center overflow-hidden bg-slate-900 py-16">
+      <section className="relative min-h-[500px] md:h-[600px] flex items-center justify-center overflow-hidden bg-slate-900 py-20">
         <div className="absolute inset-0">
           <img 
             src={generatedImage}
