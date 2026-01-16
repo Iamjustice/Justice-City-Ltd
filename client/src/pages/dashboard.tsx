@@ -256,6 +256,54 @@ function AdminDashboardView() {
       </div>
 
       <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <div>
+            <CardTitle>Professional Service Inquiries</CardTitle>
+            <CardDescription>Manage incoming requests for land surveying, valuation, and verification.</CardDescription>
+          </div>
+          <Badge variant="outline" className="text-blue-600 border-blue-200">New Inquiries</Badge>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Service</TableHead>
+                <TableHead>Client</TableHead>
+                <TableHead>Property/Location</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Action</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {[
+                { service: "Land Surveying", client: "David Adeleke", loc: "Lekki Phase 1", status: "Urgent" },
+                { service: "Property Valuation", client: "Wizkid Balogun", loc: "Banana Island", status: "Pending" },
+                { service: "Land Verification", client: "Tiwa Savage", loc: "Epe, Lagos", status: "In Progress" },
+              ].map((req, i) => (
+                <TableRow key={i}>
+                  <TableCell className="font-semibold">{req.service}</TableCell>
+                  <TableCell>{req.client}</TableCell>
+                  <TableCell className="text-slate-500">{req.loc}</TableCell>
+                  <TableCell>
+                    <Badge className={
+                      req.status === "Urgent" ? "bg-red-50 text-red-700 border-red-100" :
+                      req.status === "In Progress" ? "bg-blue-50 text-blue-700 border-blue-100" :
+                      "bg-slate-50 text-slate-700 border-slate-100"
+                    }>
+                      {req.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Button size="sm" variant="ghost" className="text-blue-600 hover:text-blue-700">Open Chat</Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+
+      <Card>
         <CardHeader>
           <CardTitle>Recent Identity Verification Requests</CardTitle>
           <CardDescription>Manual review required for high-value accounts.</CardDescription>
