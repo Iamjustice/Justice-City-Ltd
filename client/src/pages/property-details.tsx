@@ -17,7 +17,8 @@ import {
   Calendar,
   FileText,
   Check,
-  X
+  X,
+  Heart
 } from "lucide-react";
 import NotFound from "./not-found";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -63,6 +64,16 @@ export default function PropertyDetails() {
         triggerAction="contact the seller"
       />
 
+      {/* Floating Save Button - Mobile */}
+      <div className="fixed bottom-6 right-6 z-50 md:hidden">
+        <Button 
+          onClick={() => handleAction("save")}
+          className="w-14 h-14 rounded-full shadow-2xl bg-white text-slate-400 hover:text-red-500 hover:bg-white border border-slate-200"
+        >
+          <Heart className="w-6 h-6" />
+        </Button>
+      </div>
+
       {/* Chat Dialog */}
       <Dialog open={isChatOpen} onOpenChange={setIsChatOpen}>
         <DialogContent className="sm:max-w-md p-0 border-none bg-transparent shadow-none">
@@ -104,8 +115,17 @@ export default function PropertyDetails() {
                 <span className="text-lg">{property.location}</span>
               </div>
             </div>
-            <div className="text-white">
+            <div className="text-white flex flex-col items-end gap-2">
               <p className="text-3xl font-bold font-display">{formatter.format(property.price)}</p>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => handleAction("save")}
+                className="hidden md:flex bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white hover:text-red-500 gap-2"
+              >
+                <Heart className="w-4 h-4" />
+                Save Property
+              </Button>
             </div>
           </div>
         </div>
