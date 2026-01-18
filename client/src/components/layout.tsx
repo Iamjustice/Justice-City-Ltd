@@ -169,7 +169,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="pt-4 border-t border-slate-100 flex flex-col gap-3">
               {user ? (
                 <>
-                  <div className="flex items-center gap-3 p-2">
+                  <Link href="/profile" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-2 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer">
                     <Avatar className="h-10 w-10">
                       <AvatarImage src={user.avatar} alt={user.name} />
                       <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
@@ -178,7 +178,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       <p className="font-semibold text-slate-900">{user.name}</p>
                       <p className="text-xs text-slate-500">{user.isVerified ? "Verified User" : "Unverified User"}</p>
                     </div>
-                  </div>
+                  </Link>
                   <Button 
                     variant="outline" 
                     className="w-full text-red-600 border-red-100 hover:bg-red-50"
