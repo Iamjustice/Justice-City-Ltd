@@ -99,8 +99,8 @@ export default function PropertyDetails() {
         triggerAction="contact the seller"
       />
 
-      {/* Floating Save Button - Mobile */}
-      <div className="fixed bottom-6 right-6 z-50 md:hidden">
+      {/* Floating Save Button - Mobile - Removed per request */}
+      <div className="hidden">
         <Button 
           onClick={() => handleAction("save")}
           className={`w-14 h-14 rounded-full shadow-2xl transition-all ${
@@ -165,7 +165,7 @@ export default function PropertyDetails() {
         </div>
 
         {/* Bottom Right Container */}
-        <div className="absolute bottom-6 right-6 flex flex-col items-end gap-3">
+        <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
           <div className="bg-black/40 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/10 shadow-2xl">
             <p className="text-white text-3xl font-bold font-display leading-none">
               {formatter.format(property.price)}
@@ -180,7 +180,7 @@ export default function PropertyDetails() {
             }`}
           >
             <Heart className={`w-5 h-5 ${isSaved ? "fill-current" : ""}`} />
-            {isSaved ? "Saved to Dashboard" : "Save Property"}
+            {isSaved ? "Saved" : "Save"}
           </Button>
         </div>
       </div>
