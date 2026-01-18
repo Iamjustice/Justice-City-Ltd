@@ -1,4 +1,4 @@
-import { useRoute } from "wouter";
+import { useRoute, useLocation } from "wouter";
 import { MOCK_PROPERTIES } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
@@ -27,6 +27,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 export default function PropertyDetails() {
   const [match, params] = useRoute("/property/:id");
+  const [, setLocation] = useLocation();
   const { user, login } = useAuth();
   const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -86,8 +87,10 @@ export default function PropertyDetails() {
     
     if (action === "chat") {
       setIsChatOpen(true);
-    } else {
-      console.log(`Performing ${action}`);
+    } else if (action === "call") {
+      setLocation("/request-callback");
+    } else if (action === "tour") {
+      setLocation("/schedule-tour");
     }
   };
 

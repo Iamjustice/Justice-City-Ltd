@@ -12,6 +12,9 @@ import Dashboard from "@/pages/dashboard";
 import Services from "@/pages/services";
 import AuthPage from "@/pages/auth";
 import VerificationPage from "@/pages/verify";
+import ProfilePage from "@/pages/profile";
+import RequestCallbackPage from "@/pages/request-callback";
+import ScheduleTourPage from "@/pages/schedule-tour";
 
 function Router() {
   return (
@@ -23,6 +26,9 @@ function Router() {
         <Route path="/property/:id" component={PropertyDetails} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/services" component={Services} />
+        <Route path="/profile" component={ProfilePage} />
+        <Route path="/request-callback" component={RequestCallbackPage} />
+        <Route path="/schedule-tour" component={ScheduleTourPage} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
