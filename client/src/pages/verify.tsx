@@ -53,7 +53,7 @@ export default function VerificationPage() {
               <div className="max-w-xs mx-auto space-y-4">
                 <div className="space-y-2 text-left">
                   <Label htmlFor="phone">Phone Number</Label>
-                  <Input id="phone" placeholder="+234 800 000 0000" />
+                  <Input id="phone" placeholder="+234 906 534 0189" />
                 </div>
                 <Button onClick={handleNext} className="w-full bg-blue-600">Send Code</Button>
               </div>

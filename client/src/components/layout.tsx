@@ -251,9 +251,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div>
               <h4 className="font-semibold text-slate-900 mb-4">Contact</h4>
               <ul className="space-y-2 text-sm text-slate-600">
-                <li>help@justicecity.com</li>
-                <li>+234 800 JUSTICE</li>
-                <li>Lagos, Nigeria</li>
+                <li>contact@justicecityltd.com</li>
+                <li>+234 906 534 0189</li>
+                <li>Owerri, Imo, Nigeria</li>
               </ul>
             </div>
           </div>
