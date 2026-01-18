@@ -46,6 +46,44 @@ export default function ProfilePage() {
         <div className="md:col-span-2 space-y-8">
           <Card>
             <CardHeader>
+              <CardTitle>Personal Information</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-1">
+                  <p className="text-sm text-slate-500 font-medium">Full Name</p>
+                  <p className="text-slate-900 font-semibold">{user.name}</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm text-slate-500 font-medium">Nickname</p>
+                  <p className="text-slate-900 font-semibold">J-City Pioneer</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm text-slate-500 font-medium">Mobile Number</p>
+                  <p className="text-slate-900 font-semibold">+234 906 534 0189</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm text-slate-500 font-medium">Email Address</p>
+                  <p className="text-slate-900 font-semibold">{user.email}</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm text-slate-500 font-medium">Gender</p>
+                  <p className="text-slate-900 font-semibold">Not Specified</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm text-slate-500 font-medium">Date of Birth</p>
+                  <p className="text-slate-900 font-semibold">January 15, 1995</p>
+                </div>
+                <div className="col-span-1 md:col-span-2 space-y-1">
+                  <p className="text-sm text-slate-500 font-medium">Residential Address</p>
+                  <p className="text-slate-900 font-semibold">Owerri, Imo State, Nigeria</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
               <CardTitle>Account Overview</CardTitle>
             </CardHeader>
             <CardContent>
