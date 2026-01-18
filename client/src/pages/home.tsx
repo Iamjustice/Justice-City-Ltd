@@ -1,7 +1,16 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, SlidersHorizontal, ShieldCheck } from "lucide-react";
+import { 
+  Search, 
+  SlidersHorizontal, 
+  ShieldCheck, 
+  ChevronRight, 
+  Search as SearchIcon, 
+  FileText,
+  Link as LinkIcon
+} from "lucide-react";
+import { Link } from "wouter";
 import { MOCK_PROPERTIES } from "@/lib/mock-data";
 import { PropertyCard } from "@/components/property-card";
 import { cn } from "@/lib/utils";
@@ -205,6 +214,55 @@ export default function Home() {
             </Button>
           </div>
         )}
+
+        {/* Professional Services Section */}
+        <div className="mt-20">
+          <div className="flex flex-col md:flex-row items-center justify-between mb-10">
+            <div>
+              <h2 className="text-3xl font-display font-bold text-slate-900">Professional Services</h2>
+              <p className="text-slate-500 mt-2">Verified experts to assist with your real estate journey.</p>
+            </div>
+            <Button asChild variant="ghost" className="text-blue-600 hidden md:flex items-center gap-2">
+              <Link href="/services">View All Services <ChevronRight className="w-4 h-4" /></Link>
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { 
+                title: "Land Surveying", 
+                desc: "Accurate boundary mapping and topographical surveys by licensed professionals.",
+                icon: <SearchIcon className="w-6 h-6" />,
+                color: "bg-blue-50 text-blue-600"
+              },
+              { 
+                title: "Property Valuation", 
+                desc: "Professional appraisal services to determine the true market value of any asset.",
+                icon: <FileText className="w-6 h-6" />,
+                color: "bg-green-50 text-green-600"
+              },
+              { 
+                title: "Land Verification", 
+                desc: "Complete document review and physical site inspection for absolute peace of mind.",
+                icon: <ShieldCheck className="w-6 h-6" />,
+                color: "bg-purple-50 text-purple-600"
+              }
+            ].map((service, i) => (
+              <Link key={i} href="/services">
+                <div className="group p-8 rounded-3xl border border-slate-100 bg-white hover:border-blue-200 hover:shadow-xl hover:shadow-blue-900/5 transition-all cursor-pointer">
+                  <div className={`w-12 h-12 rounded-2xl ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                    {service.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">{service.title}</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed mb-6">{service.desc}</p>
+                  <div className="flex items-center text-blue-600 font-semibold text-sm group-hover:gap-2 transition-all">
+                    Request Service <ChevronRight className="w-4 h-4" />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
       </section>
       
       {/* CTA Section */}
