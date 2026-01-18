@@ -59,24 +59,12 @@ export default function ProfilePage() {
                   <p className="text-slate-900 font-semibold">J-City Pioneer</p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm text-slate-500 font-medium">Mobile Number</p>
-                  <p className="text-slate-900 font-semibold">+234 906 534 0189</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm text-slate-500 font-medium">Email Address</p>
-                  <p className="text-slate-900 font-semibold">{user.email}</p>
-                </div>
-                <div className="space-y-1">
                   <p className="text-sm text-slate-500 font-medium">Gender</p>
                   <p className="text-slate-900 font-semibold">Not Specified</p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm text-slate-500 font-medium">Date of Birth</p>
                   <p className="text-slate-900 font-semibold">January 15, 1995</p>
-                </div>
-                <div className="col-span-1 md:col-span-2 space-y-1">
-                  <p className="text-sm text-slate-500 font-medium">Residential Address</p>
-                  <p className="text-slate-900 font-semibold">Owerri, Imo State, Nigeria</p>
                 </div>
               </div>
             </CardContent>
