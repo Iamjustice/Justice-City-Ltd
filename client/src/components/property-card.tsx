@@ -1,13 +1,39 @@
 import { Property } from "@/lib/mock-data";
 import { Link } from "wouter";
 import { MapPin, Bed, Bath, Expand, ShieldCheck, Heart } from "lucide-react";
+import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 export function PropertyCard({ property }: { property: Property }) {
+  const [isSaved, setIsSaved] = useState(false);
   const formatter = new Intl.NumberFormat('en-NG', {
     style: 'currency',
     currency: 'NGN',
     maximumFractionDigits: 0,
   });
+
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("saved_properties") || "[]");
+    setIsSaved(saved.includes(property.id));
+  }, [property.id]);
+
+  const toggleSave = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const saved = JSON.parse(localStorage.getItem("saved_properties") || "[]");
+    let newSaved;
+    if (isSaved) {
+      newSaved = saved.filter((id: string) => id !== property.id);
+    } else {
+      newSaved = [...saved, property.id];
+    }
+    localStorage.setItem("saved_properties", JSON.stringify(newSaved));
+    setIsSaved(!isSaved);
+    
+    // Dispatch event for other components to update
+    window.dispatchEvent(new Event("storage"));
+  };
 
   return (
     <div className="group relative">
@@ -35,14 +61,15 @@ export function PropertyCard({ property }: { property: Property }) {
               </p>
               <button 
                 data-testid={`button-save-${property.id}`}
-                className="bg-white/20 backdrop-blur-md p-2 rounded-full text-white hover:bg-white hover:text-red-500 transition-all duration-200 border border-white/30"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  // Save logic would go here
-                }}
+                className={cn(
+                  "p-2 rounded-full transition-all duration-200 border backdrop-blur-md",
+                  isSaved 
+                    ? "bg-red-500 border-red-400 text-white" 
+                    : "bg-white/20 border-white/30 text-white hover:bg-white hover:text-red-500"
+                )}
+                onClick={toggleSave}
               >
-                <Heart className="w-4 h-4" />
+                <Heart className={cn("w-4 h-4", isSaved && "fill-current")} />
               </button>
             </div>
           </div>
