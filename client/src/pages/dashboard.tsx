@@ -11,7 +11,8 @@ import {
   Users,
   Search as SearchIcon,
   Filter,
-  ShieldCheck
+  ShieldCheck,
+  Heart
 } from "lucide-react";
 import {
   Table,
@@ -26,19 +27,34 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "wouter";
 import { ChatInterface } from "@/components/chat-interface";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { VerificationModal } from "@/components/verification-modal";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
+import { MOCK_PROPERTIES } from "@/lib/mock-data";
+import { PropertyCard } from "@/components/property-card";
 
 export default function Dashboard() {
   const { user } = useAuth();
   const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
   const [isCreateListingOpen, setIsCreateListingOpen] = useState(false);
   const [selectedLead, setSelectedLead] = useState<any>(null);
+  const [savedProperties, setSavedProperties] = useState<any[]>([]);
+
+  useEffect(() => {
+    const loadSaved = () => {
+      const savedIds = JSON.parse(localStorage.getItem("saved_properties") || "[]");
+      const saved = MOCK_PROPERTIES.filter(p => savedIds.includes(p.id));
+      setSavedProperties(saved);
+    };
+
+    loadSaved();
+    window.addEventListener("storage", loadSaved);
+    return () => window.removeEventListener("storage", loadSaved);
+  }, []);
 
   // Mock listings for the dashboard
   const listings = [
@@ -135,7 +151,7 @@ export default function Dashboard() {
         return <SellerDashboardView listings={listings} handleCreateListing={handleCreateListing} user={user} />;
       case "buyer":
       default:
-        return <BuyerDashboardView user={user} />;
+        return <BuyerDashboardView user={user} savedProperties={savedProperties} />;
     }
   };
 
@@ -608,40 +624,81 @@ function SellerDashboardView({ listings, handleCreateListing, user }: any) {
   );
 }
 
-function BuyerDashboardView({ user }: any) {
+function BuyerDashboardView({ user, savedProperties }: any) {
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-display font-bold text-slate-900">My Justice City</h1>
-        <p className="text-slate-500">Saved properties and ongoing inquiries.</p>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-display font-bold text-slate-900">My Justice City</h1>
+          <p className="text-slate-500">Saved properties and ongoing inquiries.</p>
+        </div>
+        {!user.isVerified && (
+          <Button asChild className="bg-blue-600 hover:bg-blue-700">
+            <Link href="/verify">Get Verified Now</Link>
+          </Button>
+        )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-blue-600" /> Saved Properties
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-center py-8">
-            <p className="text-slate-400 text-sm">You haven't saved any properties yet.</p>
-            <Button asChild variant="link" className="mt-2 text-blue-600">
-              <Link href="/">Browse Marketplace</Link>
-            </Button>
-          </CardContent>
-        </Card>
+      <Tabs defaultValue="saved" className="space-y-6">
+        <TabsList className="bg-slate-100 p-1">
+          <TabsTrigger value="saved" className="gap-2">
+            <Heart className="w-4 h-4" /> Saved Properties
+          </TabsTrigger>
+          <TabsTrigger value="tours" className="gap-2">
+            <Clock className="w-4 h-4" /> My Tours
+          </TabsTrigger>
+          <TabsTrigger value="inquiries" className="gap-2">
+            <MessageSquare className="w-4 h-4" /> My Inquiries
+          </TabsTrigger>
+        </TabsList>
 
-        <Card className="md:col-span-2">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <MessageSquare className="w-5 h-5 text-blue-600" /> Active Inquiries
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-center py-8">
-            <p className="text-slate-400 text-sm">Your conversation history will appear here.</p>
-          </CardContent>
-        </Card>
-      </div>
+        <TabsContent value="saved">
+          {savedProperties && savedProperties.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {savedProperties.map((property: any) => (
+                <PropertyCard key={property.id} property={property} />
+              ))}
+            </div>
+          ) : (
+            <Card>
+              <CardContent className="h-[300px] flex flex-col items-center justify-center text-center">
+                <Heart className="w-12 h-12 text-slate-200 mb-4" />
+                <h3 className="text-lg font-bold text-slate-900">No saved properties yet</h3>
+                <p className="text-slate-500 max-w-xs mx-auto mt-2 mb-6">
+                  Save properties you're interested in to keep track of them here.
+                </p>
+                <Button asChild variant="outline">
+                  <Link href="/">Browse Properties</Link>
+                </Button>
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+
+        <TabsContent value="tours">
+          <Card>
+            <CardContent className="h-[300px] flex flex-col items-center justify-center text-center">
+              <Clock className="w-12 h-12 text-slate-200 mb-4" />
+              <h3 className="text-lg font-bold text-slate-900">No scheduled tours</h3>
+              <p className="text-slate-500 max-w-xs mx-auto mt-2">
+                You haven't booked any property tours yet.
+              </p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="inquiries">
+          <Card>
+            <CardContent className="h-[300px] flex flex-col items-center justify-center text-center">
+              <MessageSquare className="w-12 h-12 text-slate-200 mb-4" />
+              <h3 className="text-lg font-bold text-slate-900">No active inquiries</h3>
+              <p className="text-slate-500 max-w-xs mx-auto mt-2">
+                Start a chat with an agent to see your inquiries here.
+              </p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
