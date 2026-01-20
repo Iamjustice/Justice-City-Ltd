@@ -25,6 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "wouter";
+import { ChatInterface } from "@/components/chat-interface";
 import { useState } from "react";
 import { VerificationModal } from "@/components/verification-modal";
 import { Input } from "@/components/ui/input";
@@ -37,6 +38,7 @@ export default function Dashboard() {
   const { user } = useAuth();
   const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
   const [isCreateListingOpen, setIsCreateListingOpen] = useState(false);
+  const [selectedLead, setSelectedLead] = useState<any>(null);
 
   // Mock listings for the dashboard
   const listings = [
@@ -474,7 +476,10 @@ function AgentDashboardView({ listings, leads, handleCreateListing, setIsVerific
                   {leads.map((lead: any) => (
                     <div 
                       key={lead.id} 
-                      className="p-4 border-b border-slate-100 hover:bg-slate-50 cursor-pointer transition-colors"
+                      onClick={() => setSelectedLead(lead)}
+                      className={`p-4 border-b border-slate-100 cursor-pointer transition-colors ${
+                        selectedLead?.id === lead.id ? "bg-blue-50" : "hover:bg-slate-50"
+                      }`}
                     >
                       <div className="flex justify-between items-start mb-1">
                         <p className="font-semibold text-slate-900">{lead.name}</p>
@@ -487,16 +492,29 @@ function AgentDashboardView({ listings, leads, handleCreateListing, setIsVerific
                 </ScrollArea>
               </CardContent>
             </Card>
-            <Card className="md:col-span-2">
-              <div className="h-[520px] flex flex-col items-center justify-center text-center p-8">
-                <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4">
-                  <MessageSquare className="w-8 h-8 text-blue-600" />
+            <Card className="md:col-span-2 overflow-hidden">
+              {selectedLead ? (
+                <div className="h-[520px]">
+                  <ChatInterface 
+                    recipient={{ 
+                      name: selectedLead.name, 
+                      image: `https://api.dicebear.com/7.x/avataaars/svg?seed=${selectedLead.name}`,
+                      verified: true 
+                    }} 
+                    propertyTitle={selectedLead.property}
+                  />
                 </div>
-                <h3 className="text-lg font-bold text-slate-900">Select a conversation</h3>
-                <p className="text-slate-500 max-w-xs mx-auto mt-2">
-                  Click on a lead from the left to start chatting about your properties.
-                </p>
-              </div>
+              ) : (
+                <div className="h-[520px] flex flex-col items-center justify-center text-center p-8">
+                  <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+                    <MessageSquare className="w-8 h-8 text-blue-600" />
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900">Select a conversation</h3>
+                  <p className="text-slate-500 max-w-xs mx-auto mt-2">
+                    Click on a lead from the left to start chatting about your properties.
+                  </p>
+                </div>
+              )}
             </Card>
           </div>
         </TabsContent>

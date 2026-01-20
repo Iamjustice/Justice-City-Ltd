@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
 import { VerificationModal } from "@/components/verification-modal";
 import { ChatInterface } from "@/components/chat-interface";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { 
   MapPin, 
   Bed, 
@@ -33,6 +33,32 @@ export default function PropertyDetails() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isSaved, setIsSaved] = useState(false);
+  const touchStart = useRef<number | null>(null);
+  const touchEnd = useRef<number | null>(null);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchEnd.current = null;
+    touchStart.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    touchEnd.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart.current || !touchEnd.current) return;
+    const distance = touchStart.current - touchEnd.current;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      nextImage();
+    } else if (isRightSwipe) {
+      prevImage();
+    }
+  };
 
   const property = MOCK_PROPERTIES.find(p => p.id === params?.id);
 
@@ -127,7 +153,12 @@ export default function PropertyDetails() {
       </Dialog>
 
       {/* Image Gallery Header */}
-      <div className="h-[400px] md:h-[600px] relative bg-slate-900 group">
+      <div 
+        className="h-[400px] md:h-[600px] relative bg-slate-900 group"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
         <img 
           src={images[currentImageIndex]} 
           alt={property.title}
