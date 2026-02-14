@@ -5,14 +5,21 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ShieldCheck, Upload, CheckCircle2 } from "lucide-react";
+import { useAuth } from "@/lib/auth";
 
 export default function VerificationPage() {
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(1);
+  const { verifyIdentity, isLoading } = useAuth();
 
-  const handleNext = () => {
-    if (step < 3) setStep(step + 1);
-    else setLocation("/dashboard");
+  const handleNext = async () => {
+    if (step < 3) {
+      setStep(step + 1);
+      return;
+    }
+
+    const isApproved = await verifyIdentity();
+    setLocation(isApproved ? "/dashboard" : "/profile");
   };
 
   return (
@@ -91,7 +98,9 @@ export default function VerificationPage() {
                 <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 to-transparent"></div>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-64 border-2 border-white/20 rounded-[40%]"></div>
               </div>
-              <Button onClick={handleNext} className="w-full bg-blue-600">Start Scan</Button>
+              <Button onClick={handleNext} className="w-full bg-blue-600" disabled={isLoading}>
+                {isLoading ? "Submitting to Smile ID..." : "Start Scan"}
+              </Button>
             </div>
           )}
         </CardContent>

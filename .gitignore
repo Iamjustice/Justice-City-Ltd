@@ -6,3 +6,5 @@ vite.config.ts.*
 *.tar.gz_export/
 _export/
 _export/
+.env
+.env.local
