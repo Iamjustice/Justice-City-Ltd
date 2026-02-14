@@ -41,7 +41,6 @@ export default function Dashboard() {
   const { user } = useAuth();
   const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
   const [isCreateListingOpen, setIsCreateListingOpen] = useState(false);
-  const [selectedLead, setSelectedLead] = useState<any>(null);
   const [savedProperties, setSavedProperties] = useState<any[]>([]);
 
   useEffect(() => {
@@ -358,6 +357,8 @@ function AdminDashboardView() {
 }
 
 function AgentDashboardView({ listings, leads, handleCreateListing, setIsVerificationModalOpen, user }: any) {
+  const [selectedLead, setSelectedLead] = useState<any>(null);
+
   const commissionData = [
     { label: "Total Sales Value", value: "₦420,000,000", icon: Building2, color: "text-blue-600" },
     { label: "Commission Earned (5%)", value: "₦21,000,000", icon: CheckCircle2, color: "text-green-600" },

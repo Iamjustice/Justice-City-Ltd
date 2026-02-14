@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { submitVerification } from "@/lib/verification";
 
 type UserRole = "buyer" | "seller" | "agent" | "admin" | null;
 
@@ -17,7 +18,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (role?: UserRole) => void;
   logout: () => void;
-  verifyIdentity: () => Promise<void>;
+  verifyIdentity: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -60,23 +61,49 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const verifyIdentity = async () => {
+  const verifyIdentity = async (): Promise<boolean> => {
+    if (!user) return false;
+
     setIsLoading(true);
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        if (user) {
-          setUser({ ...user, isVerified: true });
-          toast({
-            title: "Identity Verified",
-            description: "You now have full access to Justice City.",
-            variant: "default", // Using default/success style
-            className: "bg-green-600 text-white border-none",
-          });
-        }
-        setIsLoading(false);
-        resolve();
-      }, 2000); // Simulate verification processing
-    });
+
+    try {
+      const verification = await submitVerification({
+        mode: "biometric",
+        userId: user.id,
+        country: "NG",
+        firstName: user.name.split(" ")[0],
+        lastName: user.name.split(" ").slice(1).join(" ") || "User",
+      });
+
+      const isApproved = verification.status === "approved";
+      const updatedUser = { ...user, isVerified: isApproved };
+      localStorage.setItem("justice_city_user", JSON.stringify(updatedUser));
+      setUser(updatedUser);
+
+      toast({
+        title: isApproved ? "Identity Verified" : "Identity Verification Submitted",
+        description: isApproved
+          ? "You now have full access to Justice City."
+          : "Your Smile ID check is pending review. We will notify you once it is approved.",
+        variant: "default",
+        className: isApproved ? "bg-green-600 text-white border-none" : undefined,
+      });
+
+      return isApproved;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Verification failed.";
+
+      toast({
+        title: "Verification Failed",
+        description: message,
+        variant: "destructive",
+      });
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+
+    return false;
   };
 
   return (
